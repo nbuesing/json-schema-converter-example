@@ -125,7 +125,8 @@ services:
       KAFKA_REST_SCHEMA_REGISTRY_URL: 'http://schema-registry:8081'
 
   connect-1:
-    image: confluentinc/cp-kafka-connect:5.5.0
+    #image: confluentinc/cp-kafka-connect:5.5.0
+    build: ./connect
     hostname: connect-1
     container_name: poc_connect-1
     depends_on:
@@ -136,9 +137,6 @@ services:
       - schema-registry
     ports:
       - "18083:8083"
-    volumes:
-      - ./connect-jars:/opt/kafka-connect-lib
-      - ./mysql-connector-java-5.1.48.jar:/usr/share/java/kafka-connect-jdbc/mysql-connector-java-5.1.48.jar
     environment:
       CONNECT_BOOTSTRAP_SERVERS: 'broker-1:9092,broker-2:9092,broker-3:9092'
       CONNECT_REST_PORT: 8083
@@ -156,11 +154,11 @@ services:
       CONNECT_INTERNAL_KEY_CONVERTER: 'org.apache.kafka.connect.json.JsonConverter'
       CONNECT_INTERNAL_VALUE_CONVERTER: 'org.apache.kafka.connect.json.JsonConverter'
       CONNECT_REST_ADVERTISED_HOST_NAME: 'connect-1'
-      CONNECT_PLUGIN_PATH: /opt/kafka-connect-lib,/usr/share/java
       CONNECT_LOG4J_ROOT_LOGLEVEL: INFO
   
   connect-2:
-    image: confluentinc/cp-kafka-connect:5.5.0
+    #image: confluentinc/cp-kafka-connect:5.5.0
+    build: ./connect
     hostname: connect-2
     container_name: poc_connect-2
     depends_on:
@@ -171,9 +169,6 @@ services:
       - schema-registry
     ports:
       - "28083:8083"
-    volumes:
-      - ./connect-jars:/opt/kafka-connect-lib
-      - ./mysql-connector-java-5.1.48.jar:/usr/share/java/kafka-connect-jdbc/mysql-connector-java-5.1.48.jar
     environment:
       CONNECT_BOOTSTRAP_SERVERS: 'broker-1:9092,broker-2:9092,broker-3:9092'
       CONNECT_REST_PORT: 8083
@@ -191,7 +186,6 @@ services:
       CONNECT_INTERNAL_KEY_CONVERTER: 'org.apache.kafka.connect.json.JsonConverter'
       CONNECT_INTERNAL_VALUE_CONVERTER: 'org.apache.kafka.connect.json.JsonConverter'
       CONNECT_REST_ADVERTISED_HOST_NAME: 'connect-2'
-      CONNECT_PLUGIN_PATH: /opt/kafka-connect-lib,/usr/share/java
       CONNECT_LOG4J_ROOT_LOGLEVEL: INFO
 
   mysql:
