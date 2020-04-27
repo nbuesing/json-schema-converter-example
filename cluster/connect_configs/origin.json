@@ -1,0 +1,23 @@
+{
+    "connector.class": "io.debezium.connector.mysql.MySqlConnector",
+    "tasks.max": "10",
+
+    "database.hostname": "mysql",
+    "database.port": "3306",
+    "database.user": "debezium",
+    "database.password": "dbz",
+    "database.server.id": "111111",
+    "database.server.name": "mysql",
+    "database.whitelist": "origin",
+    "database.history.kafka.bootstrap.servers": "broker-1:9092,broker-2:9092,broker-3:9092",
+    "database.history.kafka.topic": "dbhistory.source",
+
+    "sanitize.field.names": "true",
+    "snapshot.mode": "when_needed",
+
+    "key.converter": "io.confluent.connect.json.JsonSchemaConverter",
+    "key.converter.schema.registry.url": "http://schema-registry:8081",
+    "value.converter": "io.confluent.connect.json.JsonSchemaConverter",
+    "value.converter.schema.registry.url": "http://schema-registry:8081"
+
+}

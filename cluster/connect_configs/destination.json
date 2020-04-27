@@ -1,0 +1,30 @@
+{
+    "connector.class": "io.confluent.connect.jdbc.JdbcSinkConnector",
+    "dialect.name" : "MySqlDatabaseDialect",
+    "tasks.max": "1",
+    "topics.regex": "mysql.origin.(.*)",
+    "table.name.format": "${topic}",
+    "connection.url": "jdbc:mysql://mysql:3306/destination?user=mysqluser&password=mysqlpw&useSSL=false",
+
+    "quote.sql.identifiers": "never",
+    "quote.database.names": "never",
+    "quote.table.names": "never",
+    "quote.column.names": "never",
+
+    "transforms":"dropPrefix,unwrap",
+    "transforms.dropPrefix.type":"org.apache.kafka.connect.transforms.RegexRouter",
+    "transforms.dropPrefix.regex":"mysql\\.(.*)\\.(.*)",
+    "transforms.dropPrefix.replacement": "$1_$2",
+
+    "transforms.unwrap.type": "io.debezium.transforms.UnwrapFromEnvelope",
+
+    "auto.create": "true",
+    "insert.mode": "upsert",
+    "pk.mode": "record_key",
+
+    "key.converter": "io.confluent.connect.json.JsonSchemaConverter",
+    "key.converter.schema.registry.url": "http://schema-registry:8081",
+    "value.converter": "io.confluent.connect.json.JsonSchemaConverter",
+    "value.converter.schema.registry.url": "http://schema-registry:8081"
+
+}
